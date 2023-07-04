@@ -129,6 +129,8 @@ const (
 
 	ZEC  = "ZEC"
 	ZYRO = "ZYRO"
+
+	CFX = "CFX"
 )
 
 //exchange name const list

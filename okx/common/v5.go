@@ -2,6 +2,7 @@ package common
 
 import (
 	"encoding/json"
+
 	. "github.com/nntaoli-project/goex/v2/options"
 )
 
@@ -21,17 +22,19 @@ func New() *OKxV5 {
 
 	f := &OKxV5{
 		UriOpts: UriOptions{
-			Endpoint:            "https://www.okx.com",
-			KlineUri:            "/api/v5/market/candles",
-			TickerUri:           "/api/v5/market/ticker",
-			DepthUri:            "/api/v5/market/books",
-			NewOrderUri:         "/api/v5/trade/order",
-			GetOrderUri:         "/api/v5/trade/order",
-			GetPendingOrdersUri: "/api/v5/trade/orders-pending",
-			CancelOrderUri:      "/api/v5/trade/cancel-order",
-			GetAccountUri:       "/api/v5/account/balance",
-			GetPositionsUri:     "/api/v5/account/positions",
-			GetExchangeInfoUri:  "/api/v5/public/instruments",
+			//Endpoint: "https://www.xungcloud.com/priapi",
+			//      "https://www.hibuyapp.com", //https://www.okx.com",
+			Endpoint:            "https://www.okx.com/api",
+			KlineUri:            "/v5/market/candles",
+			TickerUri:           "/v5/market/ticker",
+			DepthUri:            "/v5/market/books",
+			NewOrderUri:         "/v5/trade/order",
+			GetOrderUri:         "/v5/trade/order",
+			GetPendingOrdersUri: "/v5/trade/orders-pending",
+			CancelOrderUri:      "/v5/trade/cancel-order",
+			GetAccountUri:       "/v5/account/balance",
+			GetPositionsUri:     "/v5/account/positions",
+			GetExchangeInfoUri:  "/v5/public/instruments",
 		},
 		UnmarshalOpts: UnmarshalerOptions{
 			ResponseUnmarshaler:                  unmarshaler.UnmarshalResponse,

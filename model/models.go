@@ -145,3 +145,8 @@ type FuturesAccount struct {
 	Upl       float64
 	RiskRate  float64
 }
+
+type ClosePostion struct {
+	InstId  string
+	PosSide string
+}

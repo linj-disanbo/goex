@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/buger/jsonparser"
 	"github.com/nntaoli-project/goex/v2/logger"
 	. "github.com/nntaoli-project/goex/v2/model"
 	"github.com/spf13/cast"
-	"time"
 )
 
 type RespUnmarshaler struct {
@@ -384,4 +385,28 @@ func (un *RespUnmarshaler) UnmarshalGetExchangeInfoResponse(data []byte) (map[st
 
 func (un *RespUnmarshaler) UnmarshalResponse(data []byte, res interface{}) error {
 	return json.Unmarshal(data, res)
+}
+
+func UnmarshalClosePositionsResponse(data []byte) ([]ClosePostion, error) {
+	var (
+		positions []ClosePostion
+		err       error
+	)
+
+	_, err = jsonparser.ArrayEach(data, func(posData []byte, dataType jsonparser.ValueType, offset int, err error) {
+		var pos ClosePostion
+		err = jsonparser.ObjectEach(posData, func(key []byte, value []byte, dataType jsonparser.ValueType, offset int) error {
+			valStr := string(value)
+			switch string(key) {
+			case "instId":
+				pos.InstId = valStr
+			case "posSide":
+				pos.PosSide = valStr
+			}
+			return nil
+		})
+		positions = append(positions, pos)
+	})
+
+	return positions, err
 }

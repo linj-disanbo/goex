@@ -33,7 +33,7 @@ func main() {
 		options.WithPassphrase(OkxPassphrase))
 
 	//创建订单
-	order, _, err := okxPrvApi.CreateOrder(btcUSDTCurrencyPair, 0.01, 18000, model.Spot_Buy, model.OrderType_Limit)
+	order, _, err := okxPrvApi.CreateOrder(btcUSDTCurrencyPair, 0.01, 30000, model.Spot_Buy, model.OrderType_Limit)
 	log.Println(err)
 	log.Println(order)
 }

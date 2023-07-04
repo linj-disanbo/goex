@@ -3,15 +3,16 @@ package common
 import (
 	"errors"
 	"fmt"
+	"net/http"
+	"net/url"
+	"strings"
+	"time"
+
 	"github.com/nntaoli-project/goex/v2/httpcli"
 	"github.com/nntaoli-project/goex/v2/logger"
 	"github.com/nntaoli-project/goex/v2/model"
 	"github.com/nntaoli-project/goex/v2/options"
 	"github.com/nntaoli-project/goex/v2/util"
-	"net/http"
-	"net/url"
-	"strings"
-	"time"
 )
 
 type Prv struct {
@@ -36,7 +37,7 @@ func (prv *Prv) CreateOrder(pair model.CurrencyPair, qty, price float64, side mo
 	params := url.Values{}
 
 	params.Set("instId", pair.Symbol)
-	//params.Set("tdMode", "cash")
+	params.Set("tdMode", "isolated")
 	//params.Set("posSide", "")
 	params.Set("ordType", adaptOrderTypeToSym(orderTy))
 	params.Set("px", util.FloatToString(price, pair.PricePrecision))
@@ -160,8 +161,10 @@ func (prv *Prv) DoAuthRequest(httpMethod, reqUrl string, params *url.Values, hea
 		"OK-ACCESS-KEY":        prv.apiOpts.Key,
 		"OK-ACCESS-PASSPHRASE": prv.apiOpts.Passphrase,
 		"OK-ACCESS-SIGN":       signStr,
-		"OK-ACCESS-TIMESTAMP":  timestamp}
+		//"x-simulated-trading":  "1", // 模拟盘交易
+		"OK-ACCESS-TIMESTAMP": timestamp}
 
+	logger.Debugf("[DoAuthRequest] request url %s,  body: %s", reqUrl, string(reqBodyStr))
 	respBody, err := httpcli.Cli.DoRequest(httpMethod, reqUrl, reqBodyStr, headers)
 	if err != nil {
 		return nil, respBody, err
